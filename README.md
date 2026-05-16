@@ -1,20 +1,24 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Internship Portal
 
-# Run and deploy your AI Studio app
+A modern, dual-sided internship portal for Students and Recruiters.
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/7004ea23-940b-40c2-a338-b951294e91e3
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
+## Getting Started
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```bash
+   npm install
+   ```
+
+2. Set up your environment variables:
+   Copy `.env.example` to `.env` and fill in your keys.
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Features
+
+- **Applicant Dashboard**: Browse and apply for internships.
+- **Recruiter Dashboard**: Post and manage internship opportunities.
+- **Modern UI**: Clean, tech-focused design with responsive layouts.

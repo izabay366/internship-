@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/src/components/ui/Button';
-import { ArrowLeft, HelpCircle } from 'lucide-react';
+import { ArrowLeft, HelpCircle, Briefcase } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function OnboardingLayout() {
@@ -8,9 +8,9 @@ export default function OnboardingLayout() {
   const navigate = useNavigate();
   
   const steps = [
-    { path: '/onboarding/step-1', label: 'Step 1 of 3', title: 'Personal Info' },
-    { path: '/onboarding/step-2', label: 'Step 2 of 3', title: 'CV Upload' },
-    { path: '/onboarding/step-3', label: 'Step 3 of 3', title: 'Interests' },
+    { path: '/onboarding/step-1', label: 'Personal Info', step: 1 },
+    { path: '/onboarding/step-2', label: 'CV Upload', step: 2 },
+    { path: '/onboarding/step-3', label: 'Interests', step: 3 },
   ];
   
   const currentStepIndex = steps.findIndex(step => step.path === location.pathname);
@@ -20,52 +20,53 @@ export default function OnboardingLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-surface overflow-x-hidden">
       {/* Header */}
-      <header className="bg-surface/80 backdrop-blur-md fixed top-0 left-0 w-full z-50 border-b border-premium">
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Button 
-                variant="ghost" 
-                size="sm" 
-                className="w-10 h-10 p-0"
-                onClick={() => navigate(-1)}
+      <header className="bg-surface/80 backdrop-blur-md fixed top-0 left-0 w-full z-50 border-b border-outline">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div 
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => navigate('/')}
             >
-              <ArrowLeft className="w-5 h-5 text-accent opacity-60" />
-            </Button>
-            <h1 className="serif text-2xl text-accent tracking-widest uppercase font-light italic">{currentStep.label}</h1>
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <Briefcase className="w-5 h-5 text-on-primary" />
+              </div>
+              <span className="font-bold text-lg hidden sm:block">InternPortal</span>
+            </div>
+            <div className="h-6 w-[1px] bg-outline mx-2"></div>
+            <h1 className="text-sm font-semibold text-on-surface-variant">Step {currentStep.step}: {currentStep.label}</h1>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="text-accent opacity-60 font-medium text-[10px] uppercase tracking-[0.3em] px-4">Skip</Button>
-            <div className="h-8 w-[1px] bg-premium hidden md:block"></div>
-            <Button 
-                variant="ghost" 
-                size="sm" 
-                className="w-10 h-10 p-0"
-            >
-              <HelpCircle className="w-5 h-5 text-accent opacity-60" />
+            <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <Button variant="ghost" size="sm" className="hidden sm:flex">
+              <HelpCircle className="w-4 h-4 mr-2" />
+              Support
             </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-grow pt-24 pb-32 px-4 max-w-lg mx-auto w-full flex flex-col">
+      <main className="flex-grow pt-32 pb-32 px-4 max-w-xl mx-auto w-full flex flex-col">
         {/* Progress System */}
-        <div className="mb-10">
-           <div className="flex justify-between items-center mb-3">
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary">Onboarding Progress</span>
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-on-surface-variant">{Math.round(progress)}% Complete</span>
+        <div className="mb-12">
+           <div className="flex justify-between items-center mb-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">Onboarding Progress</span>
+              <span className="text-xs font-bold text-on-surface-variant">{Math.round(progress)}%</span>
            </div>
-           <div className="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+           <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden border border-outline">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
-                className="h-full bg-primary rounded-full" 
+                className="h-full bg-primary rounded-full shadow-[0_0_10px_rgba(6,182,212,0.5)]" 
               />
            </div>
         </div>
 
         {/* Dynamic Step Content */}
-        <div className="flex-grow">
+        <div className="flex-grow bg-surface-container border border-outline rounded-3xl p-8 md:p-12 shadow-xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -80,9 +81,9 @@ export default function OnboardingLayout() {
         </div>
       </main>
 
-      {/* Animated Blooms for Background Depth */}
+      {/* Background Decor */}
       <div className="fixed top-1/2 left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full -z-10 pointer-events-none" />
-      <div className="fixed bottom-0 right-[-10%] w-[30%] h-[30%] bg-success/5 blur-[100px] rounded-full -z-10 pointer-events-none" />
+      <div className="fixed bottom-0 right-[-10%] w-[30%] h-[30%] bg-accent/5 blur-[100px] rounded-full -z-10 pointer-events-none" />
     </div>
   );
 }

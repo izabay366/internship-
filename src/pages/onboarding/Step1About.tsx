@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/src/components/ui/Button';
 import { Input } from '@/src/components/ui/Input';
-import { Card } from '@/src/components/ui/Card';
-import { Users } from 'lucide-react';
+import { Users, BookOpen } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/src/lib/utils';
 
@@ -13,37 +12,44 @@ export default function Step1About() {
   const years = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
       <section>
-        <div className="w-12 h-[1px] bg-accent mb-6 opacity-30"></div>
-        <h2 className="serif text-4xl font-light text-on-background mb-4 italic leading-tight text-balance">The Foundation of Your Dossier</h2>
-        <p className="text-sm text-accent opacity-60 font-light leading-relaxed tracking-wide">
-          Your academic journey is the first chapter of your professional narrative. 
+        <h2 className="text-3xl font-bold text-on-surface mb-3 tracking-tight">Tell us about yourself</h2>
+        <p className="text-on-surface-variant text-sm leading-relaxed">
+          Help us understand your background to find the best internship matches for you.
         </p>
       </section>
 
-      <form className="space-y-10" onSubmit={(e) => { e.preventDefault(); navigate('/onboarding/step-2'); }}>
-        <div className="space-y-8">
-          <Input label="Identity" placeholder="Full legal name" required />
-          <Input label="Institution" placeholder="Search prestigious institutions" required />
-          <Input label="Discipline" placeholder="e.g. Quantitative Finance" required />
+      <form className="space-y-8" onSubmit={(e) => { 
+        e.preventDefault(); 
+        const formData = new FormData(e.currentTarget);
+        const data = Object.fromEntries(formData.entries());
+        localStorage.setItem('onboarding_data', JSON.stringify(data));
+        navigate('/onboarding/step-2'); 
+      }}>
+        <div className="space-y-6">
+          <Input label="Full Name" name="name" placeholder="e.g. John Doe" required />
+          <Input label="Email Address" name="email" type="email" placeholder="e.g. john@example.com" required />
+          <Input label="Password" name="password" type="password" placeholder="Min 6 characters" required />
+          <Input label="University / Institution" name="institution" placeholder="e.g. Stanford University" required />
+          <Input label="Major / Field of Study" name="major" placeholder="e.g. Computer Science" required />
         </div>
 
-        <div className="space-y-6">
-          <label className="block text-[10px] uppercase tracking-[0.3em] text-accent opacity-60 font-medium ml-1">
-            Academic Tenure
+        <div className="space-y-4">
+          <label className="block text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">
+            Current Year
           </label>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {years.map((y) => (
               <button
                 key={y}
                 type="button"
                 onClick={() => setYear(y)}
                 className={cn(
-                  "px-6 py-2.5 text-[10px] uppercase tracking-widest font-light border transition-all active:scale-95",
+                  "px-4 py-2 text-xs font-semibold rounded-xl border transition-all active:scale-95",
                   year === y 
-                    ? "bg-accent text-on-primary border-accent" 
-                    : "bg-surface-container-lowest text-accent/40 border-premium hover:border-accent hover:text-accent transition-all duration-300"
+                    ? "bg-primary text-on-primary border-primary shadow-lg shadow-primary/20" 
+                    : "bg-surface-bright text-on-surface-variant border-outline hover:border-primary hover:text-on-surface"
                 )}
               >
                 {y}
@@ -52,33 +58,21 @@ export default function Step1About() {
           </div>
         </div>
 
-        {/* Decorative Card */}
-        <Card level={2} className="mt-14 p-0 relative overflow-hidden group">
-           <div className="absolute top-0 right-0 w-24 h-[1px] bg-accent opacity-20"></div>
-           <div className="h-40 bg-neutral-900 border-b border-premium relative">
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqIB1OivdWx68SfMAp64K2PFfOZgy7el8wgo7PUz5OQWZOCHERNGInDX3p8eGx_4hBQA4aI6bmJ8W7ILX69JZZzaX0aib2iZZ2hKV_qTdO-umSVJWYOxQI9LkSY6pONyQ04TTOxyylIAW9r9FvB3yLKNLgT6i5P7lwXUbz2BAQtrClaD6diXupp8W8hLNv8l7NFuqt5O1FJopFW9eaqRiTA7h9nwUMv7qbMHnbVbOhJmlSgFu3l3GkpYVDJFezfE_MRRVnnViaLqMw" 
-                alt="Students" 
-                className="w-full h-full object-cover opacity-20 grayscale group-hover:scale-105 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
-           </div>
-           <div className="p-8 flex items-start gap-6 bg-[#0A0A0A]">
-              <div className="w-12 h-12 bg-accent/5 border border-premium flex items-center justify-center shrink-0">
-                 <Users className="w-5 h-5 text-accent opacity-40 font-light" />
-              </div>
-              <p className="text-xs text-accent opacity-60 font-light leading-relaxed italic">
-                "Precision in detail ensures exclusivity in placement. Your data is handled with the utmost discretion."
-              </p>
-           </div>
-        </Card>
+        <div className="p-6 bg-primary/5 border border-primary/10 rounded-2xl flex items-start gap-4 mt-8">
+          <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+             <BookOpen className="w-5 h-5 text-primary" />
+          </div>
+          <p className="text-xs text-on-surface-variant leading-relaxed">
+            <span className="font-bold text-on-surface">Pro Tip:</span> Completing your profile increases your visibility to recruiters by up to 3x.
+          </p>
+        </div>
 
-        {/* Fixed Bottom Action */}
-        <div className="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-md border-t border-premium p-8 flex justify-center z-50">
-          <Button type="submit" size="xl" className="w-full max-w-lg tracking-[0.2em] h-14">Continue Engagement</Button>
+        <div className="pt-6">
+          <Button type="submit" size="lg" className="w-full h-14">
+            Continue to CV Upload
+          </Button>
         </div>
       </form>
-      <div className="h-20" /> {/* spacer */}
     </div>
   );
 }

@@ -10,9 +10,9 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card = ({ className, level = 1, children, ...props }: CardProps) => {
   const levels = {
-    0: 'bg-transparent border-none',
-    1: 'bg-[#0A0A0A] border border-premium shadow-none',
-    2: 'bg-[#050505] border border-premium shadow-none backdrop-blur-md',
+    0: 'bg-transparent border-none p-0',
+    1: 'bg-surface-container border border-outline rounded-3xl shadow-sm',
+    2: 'bg-surface-bright border border-outline rounded-3xl shadow-md',
   };
 
   return (
